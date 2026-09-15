@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 4 | Asset Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <section id="auth-view" class="auth-view">
+      <div class="auth-copy">
+        <p class="eyebrow">SYSTEMS ANALYSIS & DESIGN / LAB 04</p>
+        <h1>Keep every asset<br><em>accountable.</em></h1>
+        <p class="lede">A role-based transaction desk for laboratory equipment, approvals, returns, maintenance, and audit evidence.</p>
+        <div class="proof-row"><span>ROLE CONTROL</span><span>WORKFLOW STATES</span><span>AUDIT READY</span></div>
+      </div>
+      <div class="auth-panel">
+        <div class="brand-mark">LA<span>4</span></div>
+        <h2>Sign in to the desk</h2>
+        <p class="muted">Use your Supabase account to continue.</p>
+        <form id="auth-form">
+          <label>Email<input id="email" type="email" placeholder="you@school.edu" required></label>
+          <label>Password<input id="password" type="password" placeholder="At least 6 characters" required></label>
+          <label>Sign in as<select id="login-role" required><option value="administrator">Administrator</option><option value="staff">Laboratory Staff</option><option value="requester" selected>Requester / Viewer</option></select></label>
+          <label id="name-field" class="hidden">Full name<input id="full-name" type="text" placeholder="Maria Santos"></label>
+          <div class="auth-actions"><button class="button primary" type="submit" id="auth-submit">Sign in</button><button class="button ghost" type="button" id="toggle-signup">Create account</button></div>
+          <p id="auth-message" class="form-message"></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="app-view" class="app-view hidden">
+      <header class="topbar">
+        <div class="brand"><div class="brand-mark">LA<span>4</span></div><div><strong>Asset Desk</strong><small>Laboratory operations</small></div></div>
+        <div class="topbar-actions"><div class="user-chip"><span id="user-initials">--</span><div><strong id="user-name">Loading...</strong><small id="user-role">...</small></div></div><button id="sign-out" class="icon-button" title="Sign out">↗</button></div>
+      </header>
+      <div class="workspace">
+        <aside class="sidebar"><p class="sidebar-label">Workspace</p><nav id="nav-list"><button class="nav-item active" data-view="overview"><span>◈</span> Overview</button><button class="nav-item nav-parent" data-view="equipment"><span>▦</span> Equipment</button><div class="nav-children" id="sidebar-equipment" style="display:none;"></div><button class="nav-item" data-view="requests"><span>⇄</span> Requests</button><button class="nav-item" data-view="maintenance"><span>⌁</span> Maintenance</button><button class="nav-item admin-only" data-view="users"><span>♙</span> Users</button><button class="nav-item admin-only" data-view="audit"><span>◎</span> Audit trail</button></nav><div class="sidebar-footer"><span class="status-dot"></span><span>Supabase connected</span></div></aside>
+        <main class="content"><div id="toast" class="toast"></div><div id="page-content"></div></main>
+      </div>
+    </section>
+  </div>
+
+  <template id="overview-template"><div class="page-heading"><div><p class="eyebrow">OPERATIONS / TODAY</p><h1>Good to see you, <span id="heading-name">team</span>.</h1><p class="muted">Here is the current pulse of your laboratory assets.</p></div><button class="button primary" data-action="new-request">+ New request</button></div><div class="stat-grid"><article class="stat-card accent"><span>Available now</span><strong id="stat-available">-</strong><small>equipment units ready</small></article><article class="stat-card"><span>Open requests</span><strong id="stat-pending">-</strong><small>awaiting a decision</small></article><article class="stat-card"><span>In maintenance</span><strong id="stat-maintenance">-</strong><small>items being serviced</small></article><article class="stat-card"><span>Audit events</span><strong id="stat-audit">-</strong><small>recorded this workspace</small></article></div><div class="section-grid"><section class="panel"><div class="panel-heading"><div><p class="eyebrow">ATTENTION</p><h2>Recent requests</h2></div><button class="text-button" data-view-link="requests">View all →</button></div><div id="recent-requests" class="list"></div></section><section class="panel dark-panel"><p class="eyebrow">WORKFLOW</p><h2>Request lifecycle</h2><div class="workflow"><div><b>01</b><span>Submitted</span></div><i>→</i><div><b>02</b><span>Approved</span></div><i>→</i><div><b>03</b><span>Released</span></div><i>→</i><div><b>04</b><span>Returned</span></div></div><p class="workflow-note">Every sensitive transition is permission-checked and written to the audit trail.</p></section></div></template>
+</body>
+</html>
